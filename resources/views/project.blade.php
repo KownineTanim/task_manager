@@ -5,7 +5,7 @@
 <div id="mainDivProject"  class="container ">
     <div class="row">
         <div class="col-md-12 p-3">
-            <button id="addProjectBtn" class="btn my-3 btn-sm btn-danger">Add New </button>
+            <button id="addProjectBtn" class="btn my-3 btn-sm btn-danger">Add Project </button>
             <table id="ProjectDataTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
                     <tr>

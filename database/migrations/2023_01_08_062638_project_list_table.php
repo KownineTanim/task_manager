@@ -14,7 +14,7 @@ class ProjectListTable extends Migration
     public function up()
     {
         Schema::create('projects',function(Blueprint $table){
-            $table->bigIncrements('id');
+            $table->integer('id');
             $table->string('project_name');
             $table->string('project_desc');
         });

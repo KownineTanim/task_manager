@@ -13,6 +13,15 @@
     <link href="{{asset('css/responsive.css')}}" rel="stylesheet">
     <link href="{{asset('css/datatables.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/datatables-select.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('richtexteditor/rte_theme_default.css') }}">
+    <script src="{{ asset('richtexteditor/rte.js') }}"></script>
+    <script src="{{ asset('richtexteditor/plugins/all_plugins.js') }}"></script>
+    <script>RTE_DefaultConfig.url_base='/richtexteditor'</script>
+    <style>
+        .rte-modern.rte-desktop.rte-toolbar-default {
+            min-width: 100%;
+        }
+    </style>
 </head>
 <body class="fix-header fix-sidebar">
 

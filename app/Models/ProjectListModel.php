@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class ProjectListModel extends Model
 {
     public $table='projects';
@@ -12,4 +13,10 @@ class ProjectListModel extends Model
     public $incrementing=true;
     public $keyType='int';
     public  $timestamps=false;
+
+    public function tasks() {
+        return $this->hasMany(TaskModel::class);
+    }
 }
+
+
