@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\EmployeeController;
 
 Route::get('/', function () {
     return view('home');
@@ -25,3 +26,9 @@ Route::post('/TaskAdd', [TaskController::class, 'TaskAdd']);
 Route::post('/getTaskDetails', [TaskController::class, 'getTaskDetails']);
 Route::post('/TaskUpdate', [TaskController::class, 'TaskUpdate']);
 Route::post('/TaskDelete', [TaskController::class, 'TaskDelete']);
+
+//Employee route
+Route::get('/EmployeeIndex', [EmployeeController::class, 'EmployeeIndex']);
+Route::get('/getEmployeeData', [EmployeeController::class, 'getEmployeeData']);
+Route::post('/EmployeeAdd', [EmployeeController::class, 'EmployeeAdd']);
+Route::post('/getEmployeeDetails', [EmployeeController::class, 'getEmployeeDetails']);

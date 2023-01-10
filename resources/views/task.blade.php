@@ -1,7 +1,7 @@
 @extends('Layout.app')
 @section('title','Tasks')
 @section('content')
-<div id="mainDivProject"  class="container ">
+<div id="mainDivTask"  class="container ">
     <div class="row">
         <div class="col-md-12 p-3">
             <button id="addTaskBtn" class="btn my-3 btn-sm btn-danger">Add Task </button>
@@ -24,7 +24,7 @@
 </div>
 
 <!-- loader div -->
-<div id="loaderDivProject" class="container d-none">
+<div id="loaderDivTask" class="container d-none">
     <div class="row">
         <div class="col-md-12 text-center p-5">
             <img class="loading-icon m-5" src="{{asset('images/loader.svg')}}">
@@ -33,7 +33,7 @@
 </div>
 
 <!-- Something Went Wrong ! -->
-<div id="WrongDivProject" class="container d-none">
+<div id="WrongDivTask" class="container d-none">
     <div class="row">
         <div class="col-md-12 text-center p-5">
             <h3>Something Went Wrong !</h3>
@@ -55,7 +55,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <select id="projects" name="projectlist" form="carform" style="display:block!important;width:100%;margin-bottom:1rem;">
+                            <select id="projects" name="projectlist" form="projectform" style="display:block!important;width:100%;margin-bottom:1rem;">
                             <option value="">Choose Project</option>
                             </select>
                         </div>
@@ -317,12 +317,12 @@ function TaskAdd(ProjectId,TaskName,TaskDesc) {
        } 
        else{
            $('#addTaskModal').modal('hide');
-           toastr.error('Something Went Wrong 1 !');
+           toastr.error('Something Went Wrong !');
        }   
   })
   .catch(function(error) {
            $('#addTaskModal').modal('hide');
-           toastr.error('Something Went Wrong 2 !');
+           toastr.error('Something Went Wrong !');
  });
 }
 }
@@ -359,9 +359,9 @@ function TaskUpdateDetails(detailsID){
 
 // Project list load function for update task
 $('#projectsUpdateChange').on('click', function () { 
-    ProjectList();
+    ProjectListEditModal();
 });
-function ProjectList() {
+function ProjectListEditModal() {
     axios.get('/ProjectList')
 
         .then(function(response) {
