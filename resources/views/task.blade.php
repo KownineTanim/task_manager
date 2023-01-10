@@ -77,6 +77,64 @@
     </div>
 </div>
 
+<!-- Task edit modal -->
+<div class="modal fade" id="updateTaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Task</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body  text-center">
+                <h5 id="TaskEditId" class="mt-4 d-none">  </h5>
+                <div id="TaskEditForm" class="container d-none">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <select id="projectsUpdateChange" name="projectlist" form="carform" style="display:block!important;width:100%;margin-bottom:1rem;">
+                            <option id="projectsUpdate" value=""></option>
+                            <option value="">Choose Project</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <input id="TaskNameUpdate" type="text" class="form-control mb-3" placeholder="Task Name">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="contentUpdate" style="float:left!important;">Task Description</label><br>
+                            <textarea name="content" id="contentUpdate" style="height:400px;" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <img id="TaskEditLoader" class="loading-icon m-5" src="{{asset('images/loader.svg')}}">
+                    <h5 id="TaskEditWrong" class="d-none">Something Went Wrong !</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Cancel</button>
+                    <button  id="TaskUpdateConfirmBtn" type="button" class="btn  btn-sm  btn-danger">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Task Data Deleted -->
+
+<div class="modal fade" id="deleteTaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-3 text-center">
+        <h5 class="mt-4">Do You Want To Delete?</h5>
+        <h5 id="TaskDeleteId" class="mt-4 d-none">   </h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">No</button>
+        <button  id="TaskDeleteConfirmBtn" type="button" class="btn  btn-sm  btn-danger">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @section('script')
@@ -113,12 +171,21 @@ function getTaskData() {
                 }); 
                     $('.TaskEditBtn').click(function(){
                         var id= $(this).data('id');
-                        alert(id);
+                        TaskUpdateDetails(id);
+                        $('#updateTaskModal').modal('show');
+                        var config = {};
+                        config.allowScriptCode = true;
+                        config.file_upload_handler = file_upload_handler;
+                        setTimeout(() => {
+                        window.editor = new RichTextEditor("#contentUpdate", config);
+                        }, 1000);
+                        $('#TaskEditId').html(id);
                      })
 
                      $('.TaskDeleteBtn').click(function(){
                         var id= $(this).data('id');
-                        alert(id);
+                        $('#TaskDeleteId').html(id);
+                        $('#deleteTaskModal').modal('show');
                      })   
                   $('#TaskDataTable').DataTable({"order":false});
                   $('.dataTables_length').addClass('bs-select'); 
@@ -258,6 +325,163 @@ function TaskAdd(ProjectId,TaskName,TaskDesc) {
            toastr.error('Something Went Wrong 2 !');
  });
 }
+}
+
+// Task Edit Data
+function TaskUpdateDetails(detailsID){
+    axios.post('/getTaskDetails', {
+    id: detailsID
+})
+.then(function(response) {
+    if(response.status==200){
+        $('#TaskEditForm').removeClass('d-none');
+        $('#TaskEditLoader').addClass('d-none');    
+        var jsonData = response.data;
+        $('#projectsUpdate').val(jsonData[0]['project'].id);
+        $('#projectsUpdate').html(jsonData[0]['project'].project_name);
+        $('#TaskNameUpdate').val(jsonData[0].task_name);
+        $('#contentUpdate').val(jsonData[0].task_desc);
+        console.log(jsonData);
+}
+                  
+    else{
+            $('#TaskEditLoader').addClass('d-none');
+            $('#TaskEditWrong').removeClass('d-none');
+            alert("not ok");
+        }
+})
+    .catch(function(error) {
+            $('#TaskEditLoader').addClass('d-none');
+            $('#TaskEditWrong').removeClass('d-none');
+            alert("error");
+        });
+}
+
+// Project list load function for update task
+$('#projectsUpdateChange').on('click', function () { 
+    ProjectList();
+});
+function ProjectList() {
+    axios.get('/ProjectList')
+
+        .then(function(response) {
+
+            if (response.status == 200) {
+
+                $('#mainDiv').removeClass('d-none');
+                $('#loaderDiv').addClass('d-none');
+                
+                var jsonData = response.data;
+
+                $.each(jsonData, function (i, item) {
+                    $('#projectsUpdateChange').append($('<option>', { 
+                        value: item.id ,
+                        text : item.project_name 
+                    }));
+                });
+            }
+            else {
+                    
+                $('#loaderDiv').addClass('d-none');
+                $('#WrongDiv').removeClass('d-none'); 
+            }
+            })
+            .catch(function(error) {
+                $('#loaderDiv').addClass('d-none');
+                $('#WrongDiv').removeClass('d-none');
+                
+            });
+    
+}
+
+// Task Data Update
+$('#TaskUpdateConfirmBtn').click(function(){
+var TaskId = $('#TaskEditId').html();
+var ProjectId = $('#projectsUpdateChange').val();
+var TaskName = $('#TaskNameUpdate').val();
+var TaskDes = $('#contentUpdate').val();
+TaskUpdate(TaskId,ProjectId,TaskName,TaskDes);
+});
+
+function TaskUpdate(TaskId,ProjectId,TaskName,TaskDes) {
+  
+  if(ProjectId.length==0){
+   toastr.error('Choose a project!');
+  }
+  else if(TaskName.length==0){
+   toastr.error('Task Name is Empty !');
+  }
+  else if(TaskDes.length==0){
+   toastr.error('Task Description is Empty !');
+  }
+  else{
+  $('#TaskUpdateConfirmBtn').html("<div class='spinner-border spinner-border-sm' role='status'></div>") //Animation....
+  axios.post('/TaskUpdate', {
+          id: TaskId,
+          project_id: ProjectId,
+          task_name:TaskName,
+          task_desc:TaskDes, 
+      })
+      .then(function(response) {
+          $('#TaskUpdateConfirmBtn').html("Update");
+          if(response.status==200){
+            if (response.data == 1) {
+              $('#updateTaskModal').modal('hide');
+              toastr.success('Update Success');
+              getTaskData();
+          } else {
+              $('#updateTaskModal').modal('hide');
+              toastr.error('Update Fail');
+              getTaskData();
+          }  
+       } 
+       else{
+          $('#updateTaskModal').modal('hide');
+           toastr.error('Something Went Wrong !');
+       }   
+  })
+  .catch(function(error) {
+      $('#updateTaskModal').modal('hide');
+      toastr.error('Something Went Wrong !');
+ });
+}
+}
+
+// Task Data Deleted
+$('#TaskDeleteConfirmBtn').click(function(){
+   var id= $('#TaskDeleteId').html();
+   TaskDelete(id);
+});
+
+function TaskDelete(deleteID) {
+  $('#TaskDeleteConfirmBtn').html("<div class='spinner-border spinner-border-sm' role='status'></div>") //Animation....
+    axios.post('/TaskDelete', {
+            id: deleteID
+        })
+        .then(function(response) {
+            $('#TaskDeleteConfirmBtn').html("Yes");
+            if(response.status==200){
+            if (response.data == 1) {
+                $('#deleteTaskModal').modal('hide');
+                toastr.success('Delete Success');
+                getTaskData();
+            } else {
+                $('#deleteTaskModal').modal('hide');
+                toastr.error('Delete Fail');
+                getTaskData();
+            }
+            }
+            else{
+              $('#TaskDeleteConfirmBtn').html("Yes");
+             $('#deleteTaskModal').modal('hide');
+             toastr.error('Something Went Wrong !');
+            }
+        })
+        .catch(function(error) {
+             $('#TaskDeleteConfirmBtn').html("Yes");
+             $('#deleteTaskModal').modal('hide');
+             toastr.error('Something Went Wrong !');
+        });
 }
 
 </script>

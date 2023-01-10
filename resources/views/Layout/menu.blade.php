@@ -21,6 +21,7 @@
                         <li> <a href="{{url('/')}}" ><span> <i class="fas fa-home"></i> </span><span class="hide-menu">Home</span></a></li>
                         <li> <a href="{{url('/ProjectIndex')}}" ><span> <i class="fas fa-list"></i> </span><span class="hide-menu">Project</span></a></li>
                     	<li> <a href="{{url('/TaskIndex')}}" ><span> <i class="fas fa-tasks"></i> </span><span class="hide-menu">Task</span></a></li>
+                        <li> <a href="{{url('/EmployeeIndex')}}" ><span> <i class="fas fa-users"></i> </span><span class="hide-menu">Employee</span></a></li>
 					</ul>
                 </nav>
             </div>

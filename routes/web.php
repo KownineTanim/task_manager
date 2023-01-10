@@ -22,3 +22,6 @@ Route::get('/TaskIndex', [TaskController::class, 'TaskIndex']);
 Route::get('/getTaskData', [TaskController::class, 'getTaskData']);
 Route::get('/ProjectList', [TaskController::class, 'ProjectList']);
 Route::post('/TaskAdd', [TaskController::class, 'TaskAdd']);
+Route::post('/getTaskDetails', [TaskController::class, 'getTaskDetails']);
+Route::post('/TaskUpdate', [TaskController::class, 'TaskUpdate']);
+Route::post('/TaskDelete', [TaskController::class, 'TaskDelete']);
