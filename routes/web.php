@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\AssignmentController;
 
 Route::get('/', function () {
     return view('home');
@@ -34,3 +35,10 @@ Route::post('/EmployeeAdd', [EmployeeController::class, 'EmployeeAdd']);
 Route::post('/getEmployeeDetails', [EmployeeController::class, 'getEmployeeDetails']);
 Route::post('/EmployeeUpdate', [EmployeeController::class, 'EmployeeUpdate']);
 Route::post('/EmployeeDelete', [EmployeeController::class, 'EmployeeDelete']);
+
+//Assignment route
+Route::get('/AssignmentIndex', [AssignmentController::class, 'AssignmentIndex']);
+Route::get('/getAssignmentData', [AssignmentController::class, 'getAssignmentData']);
+Route::post('/projectWiseTask', [AssignmentController::class, 'projectWiseTask']);
+Route::get('/EmployeeList', [AssignmentController::class, 'EmployeeList']);
+Route::post('/AssignmentAdd', [AssignmentController::class, 'AssignmentAdd']);

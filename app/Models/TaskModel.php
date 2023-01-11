@@ -16,4 +16,5 @@ class TaskModel extends Model
     public function project(){
         return $this->belongsTo(ProjectListModel::class,'project_id');
     }
+
 }

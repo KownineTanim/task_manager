@@ -5,22 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
-class ProjectListModel extends Model
+class AssignmentModel extends Model
 {
-    public $table='projects';
+    public $table='assignments';
     public $primaryKey='id';
     public $incrementing=true;
     public $keyType='int';
     public  $timestamps=false;
 
-    public function tasks() {
-        return $this->hasMany(TaskModel::class);
+    public function project(){
+        return $this->belongsTo(ProjectListModel::class,'project_id');
     }
 
-    public function assignments() {
-        return $this->hasMany(AssignmentModel::class);
+    public function task(){
+        return $this->belongsTo(TaskModel::class,'task_id');
     }
 }
-
-

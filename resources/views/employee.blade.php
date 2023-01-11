@@ -221,9 +221,11 @@ function EmployeeAdd(EmployeeName,EmployeeMail,EmployeePhone,EmployeeRole) {
             if (response.data == 1) {
               $('#addEmployeeModal').modal('hide');
               toastr.success('Add Success');
+              getEmployeeData();
           } else {
               $('#addEmployeeModal').modal('hide');
               toastr.error('Add Fail');
+              getEmployeeData();
           }  
        } 
        else{

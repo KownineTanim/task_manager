@@ -56,7 +56,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <select id="projects" name="projectlist" form="projectform" style="display:block!important;width:100%;margin-bottom:1rem;">
-                            <option value="">Choose Project</option>
+                                <option value="">Choose Project</option>
                             </select>
                         </div>
                         <div class="col-md-12">
