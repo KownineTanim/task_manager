@@ -112,6 +112,24 @@
         </div>
     </div>
 </div>
+
+<!-- Employee Data Deleted -->
+
+<div class="modal fade" id="deleteEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-3 text-center">
+        <h5 class="mt-4">Do You Want To Delete?</h5>
+        <h5 id="EmployeeDeleteId" class="mt-4 d-none">   </h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">No</button>
+        <button  id="EmployeeDeleteConfirmBtn" type="button" class="btn  btn-sm  btn-danger">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('script')
@@ -142,8 +160,8 @@ function getEmployeeData() {
                      $('.EmployeeDeleteBtn').click(function(){
                        
                       var id= $(this).data('id');
-                     $('#ProjectDeleteId').html(id);
-                     $('#deleteProjectModal').modal('show');
+                     $('#EmployeeDeleteId').html(id);
+                     $('#deleteEmployeeModal').modal('show');
                      })
                      $('.EmployeeEditBtn').click(function(){
                         var id= $(this).data('id');
@@ -244,6 +262,100 @@ function EmployeeUpdateDetails(detailsID){
     .catch(function(error) {
             $('#EmployeeEditLoader').addClass('d-none');
             $('#EmployeeEditWrong').removeClass('d-none');
+        });
+}
+
+// Employee Data Updated
+$('#EmployeeUpdateConfirmBtn').click(function(){
+  var EmployeeId=$('#EmployeeEditId').html();
+  var EmployeeName = $('#EmployeeNameUpdate').val();
+  var EmployeeMail = $('#EmployeeMailUpdate').val();
+  var EmployeePhone = $('#EmployeePhoneUpdate').val();
+  var EmployeeRoleUpdate = document.getElementById('EmployeeRoleUpdate'),
+  EmployeeRoleUpdateValue = EmployeeRoleUpdate.value;
+  EmployeeUpdate(EmployeeId,EmployeeName,EmployeeMail,EmployeePhone,EmployeeRoleUpdateValue);
+})
+function EmployeeUpdate(EmployeeId,EmployeeName,EmployeeMail,EmployeePhone,EmployeeRoleUpdateValue) {
+  
+  if(EmployeeName.length==0){
+   toastr.error('Employee Name is Empty !');
+  }
+  else if(EmployeeMail.length==0){
+   toastr.error('Employee Mail is Empty !');
+  }
+  else if(EmployeePhone.length==0){
+   toastr.error('Employee Phone is Empty !');
+  }
+  else if(EmployeeRoleUpdateValue.length==0){
+   toastr.error('Employee Role is Empty !');
+  }
+  else{
+  $('#EmployeeUpdateConfirmBtn').html("<div class='spinner-border spinner-border-sm' role='status'></div>") //Animation....
+  axios.post('/EmployeeUpdate', {
+          id: EmployeeId,
+          employee_name:EmployeeName,
+          employee_mail:EmployeeMail, 
+          employee_phone:EmployeePhone, 
+          employee_role:EmployeeRoleUpdateValue, 
+      })
+      .then(function(response) {
+          $('#EmployeeUpdateConfirmBtn').html("Update");
+          if(response.status==200){
+            if (response.data == 1) {
+              $('#updateEmployeeModal').modal('hide');
+              toastr.success('Update Success');
+              getEmployeeData();
+          } else {
+              $('#updateEmployeeModal').modal('hide');
+              toastr.error('Update Fail');
+              getEmployeeData();
+          }  
+       } 
+       else{
+          $('#updateEmployeeModal').modal('hide');
+           toastr.error('Something Went Wrong !');
+       }   
+  })
+  .catch(function(error) {
+      $('#updateEmployeeModal').modal('hide');
+      toastr.error('Something Went Wrong !');
+ });
+}
+}
+
+// Employee Data Deleted
+$('#EmployeeDeleteConfirmBtn').click(function(){
+   var id= $('#EmployeeDeleteId').html();
+   EmployeeDelete(id);
+});
+function EmployeeDelete(deleteID) {
+  $('#EmployeeDeleteConfirmBtn').html("<div class='spinner-border spinner-border-sm' role='status'></div>") //Animation....
+    axios.post('/EmployeeDelete', {
+            id: deleteID
+        })
+        .then(function(response) {
+            $('#EmployeeDeleteConfirmBtn').html("Yes");
+            if(response.status==200){
+            if (response.data == 1) {
+                $('#deleteEmployeeModal').modal('hide');
+                toastr.success('Delete Success');
+                getEmployeeData();
+            } else {
+                $('#deleteEmployeeModal').modal('hide');
+                toastr.error('Delete Fail');
+                getEmployeeData();
+            }
+            }
+            else{
+              $('#EmployeeDeleteConfirmBtn').html("Yes");
+             $('#deleteEmployeeModal').modal('hide');
+             toastr.error('Something Went Wrong !');
+            }
+        })
+        .catch(function(error) {
+             $('#EmployeeDeleteConfirmBtn').html("Yes");
+             $('#deleteEmployeeModal').modal('hide');
+             toastr.error('Something Went Wrong !');
         });
 }
 

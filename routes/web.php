@@ -32,3 +32,5 @@ Route::get('/EmployeeIndex', [EmployeeController::class, 'EmployeeIndex']);
 Route::get('/getEmployeeData', [EmployeeController::class, 'getEmployeeData']);
 Route::post('/EmployeeAdd', [EmployeeController::class, 'EmployeeAdd']);
 Route::post('/getEmployeeDetails', [EmployeeController::class, 'getEmployeeDetails']);
+Route::post('/EmployeeUpdate', [EmployeeController::class, 'EmployeeUpdate']);
+Route::post('/EmployeeDelete', [EmployeeController::class, 'EmployeeDelete']);
