@@ -5,15 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EmployeeModel extends Model
+class UserModel extends Model
 {
-    public $table='employees';
+    public $table='user';
     public $primaryKey='id';
     public $incrementing=true;
     public $keyType='int';
     public  $timestamps=false;
-
-    public function assignments() {
-        return $this->hasMany(AssignmentModel::class);
-    }
 }

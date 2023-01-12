@@ -15,7 +15,7 @@ function AssignmentIndex(){
 
 function getAssignmentData(){
 
-    $result=json_encode(AssignmentModel::with('project')->with('task')->get());
+    $result=json_encode(AssignmentModel::with('project')->with('task')->with('employee')->get());
     return $result;
       
 }
@@ -58,4 +58,21 @@ function AssignmentAdd(Request $req){
 
 }
 
+function getAssignmentDetails(Request $req){
+    $id= $req->input('id') ;
+    $result=json_encode(AssignmentModel::with('project')->with('task')->with('employee')->where('id','=',$id)->get());
+    return $result;
+}
+
+function AssignmentDelete(Request $req){
+    $id= $req->input('id');
+    $result= AssignmentModel::where('id','=',$id)->delete();
+
+    if($result==true){      
+      return 1;
+    }
+    else{
+        return 0;
+    }
+}
 }

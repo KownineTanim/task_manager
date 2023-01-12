@@ -341,19 +341,18 @@ function TaskUpdateDetails(detailsID){
         $('#projectsUpdate').html(jsonData[0]['project'].project_name);
         $('#TaskNameUpdate').val(jsonData[0].task_name);
         $('#contentUpdate').val(jsonData[0].task_desc);
-        console.log(jsonData);
 }
                   
     else{
             $('#TaskEditLoader').addClass('d-none');
             $('#TaskEditWrong').removeClass('d-none');
-            alert("not ok");
+
         }
 })
     .catch(function(error) {
             $('#TaskEditLoader').addClass('d-none');
             $('#TaskEditWrong').removeClass('d-none');
-            alert("error");
+
         });
 }
 

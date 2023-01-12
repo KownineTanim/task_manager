@@ -83,6 +83,69 @@
     </div>
 </div>
 
+<!-- Assignment edit modal -->
+<div class="modal fade" id="updateAssignmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Assignment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body  text-center">
+            <h5 id="AssignmentEditId" class="mt-4 d-none">  </h5>
+                <div id="AssignmentEditForm" class="container d-none">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <select id="projectsUpdateChange" name="projectlist" form="projectform" style="display:block!important;width:100%;margin-bottom:1rem;">
+                                <option id="projectsUpdate" value=""></option>
+                                <option value="">Choose Project</option>
+                            </select>
+                            <select id="tasksUpdateChange" name="tasklist" form="taskform" style="display:block!important;width:100%;margin-bottom:1rem;">
+                                <option id="tasksUpdate" value=""></option>
+                                <option value="">Choose Task</option>
+                            </select>
+                            <select id="employeesUpdateChange" name="employeelist" form="employeeform" style="display:block!important;width:100%;margin-bottom:1rem;">
+                                <option id="employeesUpdate" value=""></option>
+                                <option value="">Assign Employee</option>
+                            </select>
+                            <label for="assignDateUpdate">Assign Date:</label>
+                            <input type="date" id="assignDateUpdate" name="assignDate">
+                            <label for="endDateUpdate">End Date:</label>
+                            <input type="date" id="endDateUpdate" name="endDate">
+                        </div>
+                    </div>
+                    <img id="AssignmentEditLoader" class="loading-icon m-5" src="{{asset('images/loader.svg')}}">
+                        <h5 id="AssignmentEditWrong" class="d-none">Something Went Wrong !</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Cancel</button>
+                    <button  id="AssignmentUpdateConfirmBtn" type="button" class="btn  btn-sm  btn-danger">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Assignment Data Deleted -->
+
+<div class="modal fade" id="deleteAssignmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-3 text-center">
+        <h5 class="mt-4">Do You Want To Delete?</h5>
+        <h5 id="AssignmentDeleteId" class="mt-4 d-none">   </h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">No</button>
+        <button  id="AssignmentDeleteConfirmBtn" type="button" class="btn  btn-sm  btn-danger">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @section('script')
@@ -108,7 +171,7 @@ function getAssignmentData() {
                 $.each(jsonData, function(i, item) {
                     
                     $('<tr>').html(
-                        "<td>" + jsonData[i].employee_id + "</td>" +
+                        "<td>" + jsonData[i]['employee'].employee_name + "</td>" +
                         "<td>" + jsonData[i]['project'].project_name + "</td>" +
                         "<td>" + jsonData[i]['task'].task_name + "</td>" +
                         "<td>" + jsonData[i].assign_date  + "</td>" +
@@ -119,6 +182,20 @@ function getAssignmentData() {
                     ).appendTo('#Assignment_table');
                     
                 }); 
+
+                $('.AssignmentEditBtn').click(function(){
+                    var id= $(this).data('id');
+                    AssignmentUpdateDetails(id);
+                    $('#AssignmentEditId').html(id);
+                    $('#updateAssignmentModal').modal('show');
+                })
+
+                $('.AssignmentDeleteBtn').click(function(){
+                    var id= $(this).data('id');
+                    // AssignmentUpdateDetails(id);
+                    $('#AssignmentDeleteId').html(id);
+                    $('#deleteAssignmentModal').modal('show');
+                })
   
                   $('#TaskDataTable').DataTable({"order":false});
                   $('.dataTables_length').addClass('bs-select'); 
@@ -291,6 +368,7 @@ function AssignmentAdd(ProjectId,TaskId,EmployeesId,AssignDate,EndDate) {
             if (response.data == 1) {
               $('#addAssignmentModal').modal('hide');
               toastr.success('Add Success');
+              getAssignmentData();
           } else {
               $('#addAssignmentModal').modal('hide');
               toastr.error('Add Fail');
@@ -298,14 +376,83 @@ function AssignmentAdd(ProjectId,TaskId,EmployeesId,AssignDate,EndDate) {
        } 
        else{
            $('#addAssignmentModal').modal('hide');
-           toastr.error('Something Went Wrong 1 !');
+           toastr.error('Something Went Wrong !');
        }   
   })
   .catch(function(error) {
            $('#addAssignmentModal').modal('hide');
-           toastr.error('Something Went Wrong 2 !');
+           toastr.error('Something Went Wrong !');
  });
 }
+}
+
+// Assignment Edit Data
+function AssignmentUpdateDetails(detailsID){
+    axios.post('/getAssignmentDetails', {
+    id: detailsID
+})
+.then(function(response) {
+    if(response.status==200){
+        $('#AssignmentEditForm').removeClass('d-none');
+        $('#AssignmentEditLoader').addClass('d-none');    
+        var jsonData = response.data;
+        $('#projectsUpdate').val(jsonData[0]['project'].id);
+        $('#projectsUpdate').html(jsonData[0]['project'].project_name);
+        $('#tasksUpdate').val(jsonData[0]['task'].id);
+        $('#tasksUpdate').html(jsonData[0]['task'].task_name);
+        $('#employeesUpdate').val(jsonData[0]['employee'].id);
+        $('#employeesUpdate').html(jsonData[0]['employee'].employee_name);
+        $('#assignDateUpdate').val(jsonData[0].assign_date);
+        $('#endDateUpdate').val(jsonData[0].end_date);
+        console.log(jsonData);
+}
+                  
+    else{
+            $('#AssignmentEditLoader').addClass('d-none');
+            $('#AssignmentEditWrong').removeClass('d-none');
+        }
+})
+    .catch(function(error) {
+            $('#AssignmentEditLoader').addClass('d-none');
+            $('#AssignmentEditWrong').removeClass('d-none');
+        });
+}
+
+// Assignment Data Deleted
+$('#AssignmentDeleteConfirmBtn').click(function(){
+   var id= $('#AssignmentDeleteId').html();
+   AssignmentDelete(id);
+});
+
+function AssignmentDelete(deleteID) {
+  $('#AssignmentDeleteConfirmBtn').html("<div class='spinner-border spinner-border-sm' role='status'></div>") //Animation....
+    axios.post('/AssignmentDelete', {
+            id: deleteID
+        })
+        .then(function(response) {
+            $('#AssignmentDeleteConfirmBtn').html("Yes");
+            if(response.status==200){
+            if (response.data == 1) {
+                $('#deleteAssignmentModal').modal('hide');
+                toastr.success('Delete Success');
+                getAssignmentData();
+            } else {
+                $('#deleteAssignmentModal').modal('hide');
+                toastr.error('Delete Fail');
+                getAssignmentData();
+            }
+            }
+            else{
+              $('#AssignmentDeleteConfirmBtn').html("Yes");
+             $('#deleteAssignmentModal').modal('hide');
+             toastr.error('Something Went Wrong !');
+            }
+        })
+        .catch(function(error) {
+             $('#AssignmentDeleteConfirmBtn').html("Yes");
+             $('#deleteAssignmentModal').modal('hide');
+             toastr.error('Something Went Wrong !');
+        });
 }
 
 </script>

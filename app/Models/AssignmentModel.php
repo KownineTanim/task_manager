@@ -20,4 +20,8 @@ class AssignmentModel extends Model
     public function task(){
         return $this->belongsTo(TaskModel::class,'task_id');
     }
+
+    public function employee(){
+        return $this->belongsTo(EmployeeModel::class,'employee_id');
+    }
 }
