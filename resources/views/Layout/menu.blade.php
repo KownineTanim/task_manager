@@ -18,11 +18,12 @@
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
                         <li class="nav-devider mt-0" style="margin-bottom: 5px"></li>
-                        <li> <a href="{{url('/Dashboard')}}" ><span> <i class="fas fa-home"></i> </span><span class="hide-menu">Home</span></a></li>
-                        <li> <a href="{{url('/ProjectIndex')}}" ><span> <i class="fas fa-list"></i> </span><span class="hide-menu">Project</span></a></li>
-                    	<li> <a href="{{url('/TaskIndex')}}" ><span> <i class="fas fa-tasks"></i> </span><span class="hide-menu">Task</span></a></li>
-                        <li> <a href="{{url('/EmployeeIndex')}}" ><span> <i class="fas fa-users"></i> </span><span class="hide-menu">Employee</span></a></li>
-                        <li> <a href="{{url('/AssignmentIndex')}}" ><span> <i class="fas fa-clipboard"></i> </span><span class="hide-menu">Employee Assignment</span></a></li>
+                        <li> <a href="{{url('/dashboard')}}" ><span> <i class="fas fa-home"></i> </span><span class="hide-menu">Home</span></a></li>
+                        <li> <a href="{{url('/project')}}" ><span> <i class="fas fa-list"></i> </span><span class="hide-menu">Project</span></a></li>
+                    	<li> <a href="{{url('/task')}}" ><span> <i class="fas fa-tasks"></i> </span><span class="hide-menu">Task</span></a></li>
+                        <li> <a href="{{url('/user_role')}}" ><span> <i class="fab fa-critical-role"></i> </span><span class="hide-menu">User's Role</span></a></li>
+                        <li> <a href="{{url('/user')}}" ><span> <i class="fas fa-users"></i> </span><span class="hide-menu">Users</span></a></li>
+                        <li> <a href="{{url('/assignment')}}" ><span> <i class="fas fa-clipboard"></i> </span><span class="hide-menu">Assignment</span></a></li>
 					</ul>
                 </nav>
             </div>

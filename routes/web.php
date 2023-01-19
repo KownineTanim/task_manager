@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
-use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
@@ -17,40 +18,43 @@ Route::get('/', [LoginController::class, 'LoginIndex']);
 Route::post('/onLogin', [LoginController::class, 'onLogin']);
 Route::get('/onLogout', [LoginController::class, 'onLogout']);
 
-
 //Dashboard route
-Route::get('/Dashboard', [DashboardController::class, 'DashboardIndex'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('LoginCheck')->middleware('PreventBack');
 
 //Project route
-Route::get('/ProjectIndex', [ProjectController::class, 'ProjectIndex'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::get('/getProjectData', [ProjectController::class, 'getProjectData'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/ProjectAdd', [ProjectController::class, 'ProjectAdd'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/getProjectDetails', [ProjectController::class, 'getProjectDetails'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/ProjectUpdate', [ProjectController::class, 'ProjectUpdate'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/ProjectDelete', [ProjectController::class, 'ProjectDelete'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::get('/project', [ProjectController::class, 'index'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/project/add', [ProjectController::class, 'store'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/project/getDetails', [ProjectController::class, 'getDetails'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/project/update', [ProjectController::class, 'update'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/project/delete', [ProjectController::class, 'delete'])->middleware('LoginCheck')->middleware('PreventBack');
 
 //Task route
-Route::get('/TaskIndex', [TaskController::class, 'TaskIndex'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::get('/getTaskData', [TaskController::class, 'getTaskData'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::get('/ProjectList', [TaskController::class, 'ProjectList'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/TaskAdd', [TaskController::class, 'TaskAdd'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/getTaskDetails', [TaskController::class, 'getTaskDetails'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/TaskUpdate', [TaskController::class, 'TaskUpdate'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/TaskDelete', [TaskController::class, 'TaskDelete'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::get('/task', [TaskController::class, 'index'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::get('/project-list', [TaskController::class, 'ProjectList'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/task/add', [TaskController::class, 'store'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/task/getDetails', [TaskController::class, 'getDetails'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/task/update', [TaskController::class, 'update'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/task/delete', [TaskController::class, 'delete'])->middleware('LoginCheck')->middleware('PreventBack');
 
-//Employee route
-Route::get('/EmployeeIndex', [EmployeeController::class, 'EmployeeIndex'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::get('/getEmployeeData', [EmployeeController::class, 'getEmployeeData'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/EmployeeAdd', [EmployeeController::class, 'EmployeeAdd'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/getEmployeeDetails', [EmployeeController::class, 'getEmployeeDetails'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/EmployeeUpdate', [EmployeeController::class, 'EmployeeUpdate'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/EmployeeDelete', [EmployeeController::class, 'EmployeeDelete'])->middleware('LoginCheck')->middleware('PreventBack');
+//User role route
+Route::get('/user_role', [RoleController::class, 'index'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/role/add', [RoleController::class, 'store'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/role/getDetails', [RoleController::class, 'getDetails'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/role/update', [RoleController::class, 'update'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/role/delete', [RoleController::class, 'delete'])->middleware('LoginCheck')->middleware('PreventBack');
+
+//User route
+Route::get('/user', [UserController::class, 'index'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::get('/role-list', [UserController::class, 'RoleList'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/user/add', [UserController::class, 'store'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/user/getDetails', [UserController::class, 'getDetails'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/user/delete', [UserController::class, 'delete'])->middleware('LoginCheck')->middleware('PreventBack');
 
 //Assignment route
-Route::get('/AssignmentIndex', [AssignmentController::class, 'AssignmentIndex'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::get('/getAssignmentData', [AssignmentController::class, 'getAssignmentData'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/projectWiseTask', [AssignmentController::class, 'projectWiseTask'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::get('/EmployeeList', [AssignmentController::class, 'EmployeeList'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/AssignmentAdd', [AssignmentController::class, 'AssignmentAdd'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/getAssignmentDetails', [AssignmentController::class, 'getAssignmentDetails'])->middleware('LoginCheck')->middleware('PreventBack');
-Route::post('/AssignmentDelete', [AssignmentController::class, 'AssignmentDelete'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::get('/assignment', [AssignmentController::class, 'index'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::get('/employee-list', [AssignmentController::class, 'EmployeeList'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::get('/task-list', [AssignmentController::class, 'TaskList'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/assignment/add', [AssignmentController::class, 'store'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/assignment/getDetails', [AssignmentController::class, 'getDetails'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/assignment/update', [AssignmentController::class, 'update'])->middleware('LoginCheck')->middleware('PreventBack');
+Route::post('/assignment/delete', [AssignmentController::class, 'delete'])->middleware('LoginCheck')->middleware('PreventBack');

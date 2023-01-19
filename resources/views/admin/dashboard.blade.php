@@ -25,8 +25,17 @@
 		<div class="col-md-3 p-2">
 			<div class="card" style="background:azure;">
 				<div class="card-body">
-                    <h3 class="count-card-text text-center">Total Employee</h3>
-					<h4 class="count-card-title text-center">{{$TotalEmployee}}</h4>
+                    <h3 class="count-card-text text-center">Total Role</h3>
+					<h4 class="count-card-title text-center">{{$TotalRole}}</h4>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-3 p-2">
+			<div class="card" style="background:azure;">
+				<div class="card-body">
+                    <h3 class="count-card-text text-center">Total User</h3>
+					<h4 class="count-card-title text-center">{{$TotalUser}}</h4>
 				</div>
 			</div>
 		</div>

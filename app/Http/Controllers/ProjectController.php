@@ -3,70 +3,53 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ProjectListModel;
+use App\Models\Project;
 
 class ProjectController extends Controller
 {
-function ProjectIndex(){
-        return view('project');	
-}
-
-function getProjectData(){
-         $result=json_encode(ProjectListModel::orderBy('id','desc')->get());
-         return $result;
-}
-    
-function ProjectAdd(Request $req){
-    $project_name= $req->input('project_name');
-    $project_desc= $req->input('project_desc');
-    $result= ProjectListModel::insert([
-        'project_name'=>$project_name,
-        'project_desc'=>$project_desc,
-    ]);
-
-    if($result==true){      
-      return 1;
+    function index () {
+        if(request()->has('json')) {
+            $result = Project::orderBy('id', 'desc')
+                ->with('user')
+                ->get();
+            return response()->json($result);
+        }
+        return view('admin.project');	
     }
-    else{
-     return 0;
+        
+    function store (Request $req) {
+        $name = $req->name;
+        // $userId = auth()->id();
+        $userId = $req->session()->get('id');
+        $result= Project::insert([
+            'name' => $name,
+            'created_by' => $userId,
+        ]);
+        return $result == true ? 1 : 0;
     }
-}
 
-function getProjectDetails(Request $req){
-    $id= $req->input('id');
-    $result=json_encode(ProjectListModel::where('id','=',$id)->get());
-    return $result;
-}
-
-function ProjectUpdate(Request $req){
-    $id= $req->input('id');
-    $project_name= $req->input('project_name');
-    $project_desc= $req->input('project_desc');
-
-    $result= ProjectListModel::where('id','=',$id)->update([
-        'project_name'=>$project_name,
-        'project_desc'=>$project_desc,
-    ]);
-
-    if($result==true){      
-      return 1;
+    function getDetails (Request $req) {
+        $id = $req->id;
+        $result = Project::find($id);
+        return response()->json($result);
     }
-    else{
-     return 0;
+
+    function update (Request $req) {
+        $id = $req->id;
+        $project_name = $req->name;
+        $userId = $req->session()->get('id');
+        $result = Project::where('id', $id)
+            ->update([
+                'name' => $project_name,
+                'created_by' => $userId,
+            ]);
+        return $result == true ? 1 : 0;
     }
-}
 
-function ProjectDelete(Request $req){
-    $id= $req->input('id');
-    $result= ProjectListModel::where('id','=',$id)->delete();
-
-    if($result==true){      
-      return 1;
+    function delete (Request $req){
+        $id = $req->id;
+        $result = Project::where('id', $id)
+            ->delete();
+        return $result == true ? 1 : 0;
     }
-    else{
-        return 0;
-    }
-}
-
-
 }
