@@ -58,7 +58,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <input id="user_name" type="text" class="form-control mb-3" placeholder="User Name">
-                            <input id="user_mail" type="text"  class="form-control mb-3" placeholder="User Email">
+                            <input id="user_mail" type="text" class="form-control mb-3" placeholder="User Email">
                             <input id="user_pass" type="password"  class="form-control mb-3" placeholder="User Password">
                             <input id="confirm_pass" type="password"  class="form-control mb-3" placeholder="Re-type Password">
                             <select id="user_role" name="rolelist" form="roleform" style="display:block!important;width:100%;margin-bottom:1rem;">

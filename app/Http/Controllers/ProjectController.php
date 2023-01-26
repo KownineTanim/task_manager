@@ -14,13 +14,13 @@ class ProjectController extends Controller
                 ->get();
             return response()->json($result);
         }
-        return view('admin.project');	
+        return view('admin.project');	             
     }
         
     function store (Request $req) {
         $name = $req->name;
-        // $userId = auth()->id();
-        $userId = $req->session()->get('id');
+        dd(auth()->user());
+        $userId = auth()->id();
         $result= Project::insert([
             'name' => $name,
             'created_by' => $userId,

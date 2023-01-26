@@ -17,7 +17,7 @@ class TaskAssign extends Model
         return $this->belongsTo(Task::class,'task_id');
     }
 
-    public function adminname(){
+    public function user(){
         return $this->belongsTo(User::class,'assigned_by');
     }
 }

@@ -14,6 +14,8 @@
     <link href="{{asset('css/datatables.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/datatables-select.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('richtexteditor/rte_theme_default.css') }}">
+    <!-- Summernote -->
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/summernote/summernote-bs4.min.css')}}">
     <script src="{{ asset('richtexteditor/rte.js') }}"></script>
     <script src="{{ asset('richtexteditor/plugins/all_plugins.js') }}"></script>
     <script>RTE_DefaultConfig.url_base='/richtexteditor'</script>
@@ -44,6 +46,20 @@
 <script type="text/javascript" src="{{asset('js/datatables-select.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/axios.min.js')}}"></script>
+<!-- Summernote -->
+<script type="text/javascript" src="{{asset('plugins/summernote/summernote-bs4.min.js')}}"></script>
+<script>
+    $(function () {
+    // Summernote
+    $('#summernote').summernote()
+
+    // CodeMirror
+    CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
+      mode: "htmlmixed",
+      theme: "monokai"
+    });
+  })
+</script>
 
 @yield('script')
 </body>

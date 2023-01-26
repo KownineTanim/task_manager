@@ -151,7 +151,7 @@ function getAssignmentData() {
                         "<td>" + item['employee'].name + "</td>" +
                         "<td>" + item['taskname'].title + "</td>" +
                         "<td>" + item.consumed_time  + "</td>" +
-                        "<td>" + item['adminname'].name  + "</td>" +
+                        "<td>" + item['user'].name  + "</td>" +
                         "<td>" + item.created_at.substring(0, 10)  + "</td>" +
                         "<td><a class='assignment-edit-btn' data-id="+item.id+"><i class='fas fa-edit'></i></a></td>" +
                         "<td><a class='assignment-delete-btn' data-id="+item.id+"><i class='fas fa-trash-alt'></i></a></td>" 

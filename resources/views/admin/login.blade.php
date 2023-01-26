@@ -10,7 +10,7 @@
         <div style="height: 450px" class="col-md-6 p-3">
           <form  action=" "  class="m-5 loginForm">
             <div class="form-group">
-            <label for="exampleInputEmail1">User Email</label>
+            <label for="exampleInputEmail1">Admin Email</label>
             <input required="" name="userEmail" value="" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter User Name">
             </div>
             <div class="form-group">
@@ -47,7 +47,7 @@
         let formData=$(this).serializeArray();
         let userEmail=formData[0]['value'];
         let password=formData[1]['value'];
-        let url="/onLogin";
+        let url="/admin/onLogin";
         axios.post(url,{
             email:userEmail,
             password:password
@@ -61,8 +61,6 @@
         }).catch(function (error) {
             toastr.error('Login Fail ! Try Again');
         })
-
-
     })
 
 </script>

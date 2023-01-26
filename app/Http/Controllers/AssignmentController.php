@@ -6,14 +6,17 @@ use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\TaskAssign;
+use Auth;
 
 class AssignmentController extends Controller
 {
     function index () {
         if(request()->has('json')) {
+            $userId = Auth::user()->id;
             $result = TaskAssign::select('id', 'empoyee_id', 'task_id', 'consumed_time', 'assigned_by', 'created_at')
-                ->with(['employee', 'taskname', 'adminname'])
+                ->with(['employee', 'taskname', 'user'])
                 ->orderBy('id', 'desc')
+                ->where('empoyee_id', $userId)
                 ->get();
             return response()->json($result);
         }
@@ -38,7 +41,7 @@ class AssignmentController extends Controller
         $task_id = $req->input('task_id');
         $employee_id = $req->input('empoyee_id');
         $ini_time = 0;
-        $user_id = $req->session()->get('id');
+        $user_id = Auth::user()->id;
         $result= TaskAssign::insert([
             'empoyee_id' => $employee_id,
             'task_id' => $task_id,
