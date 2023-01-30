@@ -25,7 +25,7 @@
 		<div class="col-md-4 p-2">
 			<div class="card" style="background:azure;">
 				<div class="card-body">
-                    <h3 class="count-card-text text-center">Total Assignment</h3>
+                    <h3 class="count-card-text text-center">My Task</h3>
 					<h4 class="count-card-title text-center">{{$TotalAssignment}}</h4>
 				</div>
 			</div>

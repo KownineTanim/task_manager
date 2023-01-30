@@ -15,6 +15,7 @@ class LoginController extends Controller
 
     function onLogin(Request $request){
         $credentials = $request->only(['email', 'password']);
+        $credentials['role_id']='1';
         return  Auth::attempt($credentials) ? 1 : 0;
     }
     

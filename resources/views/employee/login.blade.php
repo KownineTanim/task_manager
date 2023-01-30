@@ -31,12 +31,7 @@
     
   </div>
 </div>
-
-
 @endsection
-
-
-
 
 @section('script')
 <script type="text/javascript">
@@ -46,7 +41,7 @@
         let formData=$(this).serializeArray();
         let userEmail=formData[0]['value'];
         let password=formData[1]['value'];
-        let url="user/onLogin";
+        let url="/user/onLogin";
         axios.post(url,{
             email:userEmail,
             password:password

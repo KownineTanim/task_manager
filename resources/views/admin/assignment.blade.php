@@ -86,7 +86,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body  text-center">
+            <div class="modal-body text-center">
                 <h5 id="assignment-edit-id" class="mt-4 d-none">  </h5>
                 <div id="assignment-edit-form" class="container d-none">
                     <div class="row">
@@ -150,7 +150,7 @@ function getAssignmentData() {
                     $('<tr>').html(
                         "<td>" + item['employee'].name + "</td>" +
                         "<td>" + item['taskname'].title + "</td>" +
-                        "<td>" + item.consumed_time  + "</td>" +
+                        "<td>" + new Date(item.consumed_time * 1000).toISOString().substring(11, 19)  + "</td>" +
                         "<td>" + item['user'].name  + "</td>" +
                         "<td>" + item.created_at.substring(0, 10)  + "</td>" +
                         "<td><a class='assignment-edit-btn' data-id="+item.id+"><i class='fas fa-edit'></i></a></td>" +

@@ -11,33 +11,15 @@ use Auth;
 class UserDashboardController extends Controller
 {
     function index () {
+        $userId = Auth::user()->id;
         $TotalProject = Project::count();
         $TotalTask = Task::count();
-        $TotalAssignment = TaskAssign::count();
+        $TotalAssignment = TaskAssign::where('empoyee_id', $userId)->count();
          return view('employee.dashboard',[
              'TotalProject' => $TotalProject,
              'TotalTask' => $TotalTask,
              'TotalAssignment' => $TotalAssignment
          ]);
-    }
-
-    function projectIndex () {
-        if(request()->has('json')) {
-            $result = Project::with('user')
-                ->get();
-            return response()->json($result);
-        }
-        return view('employee.project');	
-    }
-
-    function taskIndex () {
-        if(request()->has('json')) {
-            $result = Task::select('id', 'title', 'description', 'project_id', 'created_by', 'created_at')
-                ->with(['projectname', 'username'])
-                ->get();
-            return response()->json($result);
-        }
-        return view('employee.task');	
     }
 
     function assignmentIndex () {
@@ -55,15 +37,10 @@ class UserDashboardController extends Controller
 
     function assignmentStart (Request $req) {
         $id = $req->id ;
-        $consumed_time = $req->consumed_time;
-        $previous_time = TaskAssign::select('consumed_time')
-                ->where('id', $id)
-                ->first();
-        $pre_consume = $previous_time->consumed_time ;
-        $total = $pre_consume +  $consumed_time;
+        $consumedTime = $req->consumed_time;
         $result = TaskAssign::where('id', $id) 
             ->update([
-                'consumed_time' => $total,
+                'consumed_time' => \DB::raw('consumed_time + '. $consumedTime),
             ]);
         return $result == true ? 1 : 0;
     }

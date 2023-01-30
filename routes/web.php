@@ -16,19 +16,17 @@ use App\Http\Controllers\DashboardController;
 Route::middleware(['guest'])->group(function(){
     Route::get('/', [UserLoginContoller::class, 'LoginIndex'])->name('login');
     Route::post('/user/onLogin', [UserLoginContoller::class, 'onLoginUser']);
+    Route::get('/admin', [LoginController::class, 'LoginIndex']);
+    Route::post('/admin/onLogin', [LoginController::class, 'onLogin']);
 });
 Route::middleware(['auth', 'PreventBack'])->group(function() {
     
     Route::get('/user/onLogout', [UserLoginContoller::class, 'onLogout'])->name('logout');
     Route::get('/user/dashboard', [UserDashboardController::class, 'index']);
-    Route::get('/user/project', [UserDashboardController::class, 'projectIndex']);
-    Route::get('/user/task', [UserDashboardController::class, 'taskIndex']);
-    Route::get('/user/assignment', [UserDashboardController::class, 'assignmentIndex']);
-    Route::post('/user/start', [UserDashboardController::class, 'assignmentStart']);
+    Route::get('/user/task-assigned', [UserDashboardController::class, 'assignmentIndex'])->name('task.assigned');;
+    Route::post('/user/task-start', [UserDashboardController::class, 'assignmentStart'])->name('task.start');;
 
     //Admin Login route
-    Route::get('/admin', [LoginController::class, 'LoginIndex']);
-    Route::post('/admin/onLogin', [LoginController::class, 'onLogin']);
     Route::get('/admin/onLogout', [LoginController::class, 'onLogout']);
 
     //Dashboard route
